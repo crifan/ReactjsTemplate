@@ -33,7 +33,6 @@ export default class App extends Component {
         <Switch>
           <Route exact  path={ROUTE_PREFIX.INDEX} component={Index} />
           <Route exact  path={ROUTE_PREFIX.LOGIN} component={Login} />
-          <Route        path={ROUTE_PREFIX.MAIN}  component={Main} />
         </Switch>
       </Router>
     );

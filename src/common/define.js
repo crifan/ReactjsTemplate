@@ -15,9 +15,8 @@ export const ROUTE_PREFIX = {
 
     LOGIN : `/login`,
 
-    MAIN    : `/main`,
-
-    SECOND_TAB: `/main/second_tab`,
-    THIRD_TAB: `/main/third_tab`,
-    FOURTH_TAB: `/main/fourth_tab`,
+    HOME    : `/home`,
+    FUNCTION: `/function`,
+    GRAPH: `/graph`,
+    MY: `/my`,
 };

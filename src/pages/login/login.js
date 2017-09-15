@@ -15,7 +15,7 @@ import {
   FieldGroup,
   Col,
   Grid,
-  Image,
+  // Image,
 } from 'react-bootstrap';
 
 import imgLogo from 'assets/img/logo-120x120.png';
@@ -47,6 +47,8 @@ export default class Login extends Component {
     // for debug
     this.state.account = 'crifan';
     this.state.password = '111111';
+    //for debug
+    this.state.isLogin = false;
   }
 
   submitLogin(e){
@@ -133,13 +135,14 @@ export default class Login extends Component {
       this.state.isLogin ?
       <Redirect to={
         {
-          pathname: ROUTE_PREFIX.MAIN
+          pathname: ROUTE_PREFIX.INDEX
         }
       }/>
       :
       <div className="login_container">
         <div className="login_logo">
-          <Image src={imgLogo} responsive />
+          {/* <Image src={imgLogo} responsive /> */}
+          <img src={imgLogo} />
         </div>
 
         <div className="login_body">
