@@ -3,6 +3,7 @@ import path from 'path';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import ExtractTextPlugin from 'extract-text-webpack-plugin';
 import CopyWebpackPlugin from 'copy-webpack-plugin';
+import autoprefixer from 'autoprefixer';
 
 let isProd = (process.env.NODE_ENV === 'production');
 console.log(`process.env.NODE_ENV=${process.env.NODE_ENV}, isProd=${isProd}`);
@@ -14,6 +15,9 @@ let curPublicPath = 'project_name';
 let appThemeColor = '#673ab8';
 let projectName = 'Project Name';
 let projectDescription = 'Project Description';
+
+const CSS_MAPS = !isProd;
+
 
 // TODO: 后续再根据实际情况，看看是否有多个css，less等，是否需要改为多个ExtractTextPlugin实例的配置
 // 多个提取实例
@@ -108,6 +112,7 @@ module.exports = {
       path.resolve(__dirname, 'src')
     ],
     alias: {
+      AssetsAlias: path.resolve(__dirname, 'src/assets'),
       ComponentsAlias: path.resolve(__dirname, 'src/components'),
       PagesAlias: path.resolve(__dirname, 'src/pages'),
       LibAlias: path.resolve(__dirname, 'src/lib'),
@@ -153,52 +158,114 @@ module.exports = {
           }
         }
       },
-      {
-        test: /\.css$/,
-        // use: ['style-loader', 'css-loader'],
-        // use: [
-        //   { loader: 'style-loader' },
-        //   {
-        //     loader: 'css-loader',
-        //     options: {
-        //       modules: true
-        //     }
-        //   }
-        // ],
 
-        use: ExtractTextPlugin.extract({
-          fallback: 'style-loader', // 编译后用什么loader来提取css文件
-          use: 'css-loader' //指需要什么样的loader去编译文件,这里由于源文件是.css所以选择css-loader
-        }),
+      // {
+      //   test: /\.css$/,
+      //   // use: ['style-loader', 'css-loader'],
+      //   // use: [
+      //   //   { loader: 'style-loader' },
+      //   //   {
+      //   //     loader: 'css-loader',
+      //   //     options: {
+      //   //       modules: true
+      //   //     }
+      //   //   }
+      //   // ],
 
-        // use: extractCSS.extract([ 'css-loader', 'postcss-loader' ]),
-        // use: extractCSS.extract([
-        //   'css-loader',
-        //   {
-        //     loader: 'postcss-loader',
-        //     options: {
-        //       // plugins: () => [require('autoprefixer')]
-        //     }
-        //   } 
-        // ]),
+      //   use: ExtractTextPlugin.extract({
+      //     fallback: 'style-loader', // 编译后用什么loader来提取css文件
+      //     use: 'css-loader' //指需要什么样的loader去编译文件,这里由于源文件是.css所以选择css-loader
+      //   }),
+
+      //   // use: extractCSS.extract([ 'css-loader', 'postcss-loader' ]),
+      //   // use: extractCSS.extract([
+      //   //   'css-loader',
+      //   //   {
+      //   //     loader: 'postcss-loader',
+      //   //     options: {
+      //   //       // plugins: () => [require('autoprefixer')]
+      //   //     }
+      //   //   } 
+      //   // ]),
         
-        include: path.resolve(__dirname, 'src')
+      //   // include: path.resolve(__dirname, 'src')
+      // },
+      // {
+      //   test: /\.less$/,
+      //   use: [
+      //     {
+      //       loader: 'style-loader' // creates style nodes from JS strings
+      //     }, {
+      //       loader: 'css-loader' // translates CSS into CommonJS
+      //     }, {
+      //       loader: 'less-loader' // compiles Less to CSS
+      //     }
+      //   ]
+
+      //   // test: /\.less$/i,
+      //   // use: extractLESS.extract([ 'css-loader', 'less-loader' ])
+      // },
+
+      {
+        // Transform our own .(less|css) files with PostCSS and CSS-modules
+        test: /\.(less|css)$/,
+        include: [
+          path.resolve(__dirname, 'src/components'),
+          path.resolve(__dirname, 'src/container')
+        ],
+        use: ExtractTextPlugin.extract({
+          fallback: 'style-loader',
+          use: [
+            {
+              loader: 'css-loader',
+              options: { modules: true, sourceMap: CSS_MAPS, importLoaders: 1 }
+            },
+            {
+              loader: `postcss-loader`,
+              options: {
+                sourceMap: CSS_MAPS,
+                plugins: () => {
+                  autoprefixer({ browsers: [ 'last 2 versions' ] });
+                }
+              }
+            },
+            {
+              loader: 'less-loader',
+              options: { sourceMap: CSS_MAPS }
+            }
+          ]
+        })
       },
       {
-        test: /\.less$/,
-        use: [
-          {
-            loader: 'style-loader' // creates style nodes from JS strings
-          }, {
-            loader: 'css-loader' // translates CSS into CommonJS
-          }, {
-            loader: 'less-loader' // compiles Less to CSS
-          }
-        ]
-
-        // test: /\.less$/i,
-        // use: extractLESS.extract([ 'css-loader', 'less-loader' ])
+        test: /\.(less|css)$/,
+        exclude: [
+          path.resolve(__dirname, 'src/components'),
+          path.resolve(__dirname, 'src/container')
+        ],
+        use: ExtractTextPlugin.extract({
+          fallback: 'style-loader',
+          use: [
+            {
+              loader: 'css-loader',
+              options: { sourceMap: CSS_MAPS, importLoaders: 1 }
+            },
+            {
+              loader: `postcss-loader`,
+              options: {
+                sourceMap: CSS_MAPS,
+                plugins: () => {
+                  autoprefixer({ browsers: [ 'last 2 versions' ] });
+                }
+              }
+            },
+            {
+              loader: 'less-loader',
+              options: { sourceMap: CSS_MAPS }
+            }
+          ]
+        })
       },
+
       {
         test: /\.(svg|woff2?|ttf|eot|jpe?g|png|gif)$/i,
         //development use url-loader, production use file-loader

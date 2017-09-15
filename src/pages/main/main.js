@@ -9,15 +9,31 @@ import {
 import { ROUTE_PREFIX, EMPTY_USER_INFO } from 'common/define';
 import { SLASH_PUBLIC_PATH } from 'common/config';
 import AppGlobal from 'common/app-global';
-import './main.less';
+
 import {
   PageHeader,
 } from 'react-bootstrap';
 
+import {
+  Tab,
+  TabBarItem,
+  Article,
+} from 'react-weui';
+//import styles
+import 'weui';
+import 'react-weui/build/packages/react-weui.css';
+
+import './main.less';
+
+import IconButton from 'assets/img/icon_nav_button.png';
+import IconMsg from 'assets/img/icon_nav_msg.png';
+import IconArticle from 'assets/img/icon_nav_article.png';
+
 export default class Main extends Component {
   state = {
     // curUserInfo : EMPTY_USER_INFO,
-    isNaviBarCollapse: false
+    isNaviBarCollapse: false,
+    curTabIdx: 0,
   };
 
   constructor(props) {
@@ -30,10 +46,27 @@ export default class Main extends Component {
       // console.log(this.props.location.state.curUserInfo);
       // this.state.curUserInfo = this.props.location.state.curUserInfo;
       // console.log(this.state.curUserInfo);
+
+      this.onTabChange = this.onTabChange.bind(this);
   }
 
   componentDidMount(){
     console.log(`Main componentDidMount`);
+  }
+
+  onTabChange(newTabIdx){
+    console.log('onTabChange: newTabIdx=', newTabIdx);
+
+    // if (newTabIdx === this.state.curTabIdx) {
+    //   console.log('click current tab: not change');      
+    // } else {
+    //   console.log('this.props.history=', this.props.history);
+
+    //   if (this.props.history) {
+    //     console.log(`jump to path: ${ROUTE_PREFIX.WELCOME}`);
+    //     this.props.history.push(ROUTE_PREFIX.WELCOME);
+    //   }
+    // }
   }
 
   render() {
@@ -42,9 +75,51 @@ export default class Main extends Component {
 
     return (
       <div className="main_wrapper">
-        <PageHeader>
-        首页
-        </PageHeader>
+        <Tab
+          type="tabbar"
+          defaultIndex={this.state.curTabIdx}
+          onChange={this.onTabChange}
+        >
+            <TabBarItem icon={<img src={IconButton}/>} label="首页">
+              <PageHeader>首页</PageHeader>
+              <Article>
+                <section>
+                  <h2 className="title">首页</h2>
+                  <section>
+                    <h3>1.1 Title</h3>
+                    <p>页面1</p>
+                  </section>
+                </section>
+              </Article>
+            </TabBarItem>
+
+            <TabBarItem icon={<img src={IconMsg}/>} label="功能">
+              <PageHeader>功能</PageHeader>
+              <Article>
+                <section>
+                  <h2 className="title">功能</h2>
+                  <section>
+                    <h3>2.1 Title</h3>
+                    <p>页面2</p>
+                  </section>
+                </section>
+              </Article>
+            </TabBarItem>
+
+            <TabBarItem icon={<img src={IconArticle}/>} label="我的">
+              <PageHeader>我的</PageHeader>
+              <Article>
+                <section>
+                  <h2 className="title">我的</h2>
+                  <section>
+                    <h3>3.1 Title</h3>
+                    <p>页面3</p>
+                  </section>
+                </section>
+              </Article>
+            </TabBarItem>
+        </Tab>
+
       </div>
     );
   }
