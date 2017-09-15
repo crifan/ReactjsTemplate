@@ -31,8 +31,8 @@ export default class App extends Component {
 
       <Router basename={SLASH_PUBLIC_PATH}>
         <Switch>
-          <Route exact  path={ROUTE_PREFIX.INDEX} component={Index} />
           <Route exact  path={ROUTE_PREFIX.LOGIN} component={Login} />
+          <Route        path={ROUTE_PREFIX.INDEX} component={Index} />
         </Switch>
       </Router>
     );

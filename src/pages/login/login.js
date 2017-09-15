@@ -135,7 +135,7 @@ export default class Login extends Component {
       this.state.isLogin ?
       <Redirect to={
         {
-          pathname: ROUTE_PREFIX.INDEX
+          pathname: ROUTE_PREFIX.HOME
         }
       }/>
       :

@@ -36,7 +36,7 @@ export default class Home extends Component {
         ' ,props.history=', props.history,
         ' ,props.location=', props.location
       );
-  }
+    }
 
   componentDidMount(){
     console.log(`Home componentDidMount`);
