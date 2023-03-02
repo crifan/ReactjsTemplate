@@ -17,6 +17,7 @@ import {
   Grid,
   // Image,
 } from 'react-bootstrap';
+// import cookie from 'react-cookies';
 
 import imgLogo from 'assets/img/logo-120x120.png';
 
@@ -47,8 +48,11 @@ export default class Login extends Component {
     // for debug
     this.state.account = 'crifan';
     this.state.password = '111111';
-    //for debug
-    this.state.isLogin = false;
+    // //for debug
+    // this.state.isLogin = false;
+
+    // console.log('cookie=', cookie);
+    // console.log('allCookies=', cookie.loadAll());
   }
 
   submitLogin(e){

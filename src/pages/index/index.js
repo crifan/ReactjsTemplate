@@ -24,6 +24,8 @@ import {
   PageHeader,
 } from 'react-bootstrap';
 
+import cookie from 'react-cookies';
+
 import './index.less';
 
 // import IconHome from 'assets/img/icon_nav_button.png';
@@ -104,7 +106,13 @@ export default class Index extends Component {
 
     // console.log('window=', window);
     // console.log('window.Headers=', window.Headers);
-    // // console.log('window.Headers()=', window.Headers());
+    // // // console.log('window.Headers()=', window.Headers());
+    // console.log('cookie=', cookie);
+    // console.log('allCookies=', cookie.loadAll());
+    // cookie.save('useId', 'crifan', { path: '/' });
+
+    // window.sessionStorage.setItem('sessionUserId', 'sessionCrifan');
+    // console.log('read out sessionStorage: sessionUserId=', window.sessionStorage.getItem('sessionUserId'));
   }
 
   onTabChange(newTabIdx){
@@ -151,6 +159,8 @@ export default class Index extends Component {
     // icon={this.state.curTabIdx === TabInfo.function.index ? <img src={TabInfo.function.icon.active}/> : <img src={TabInfo.function.icon.inactive}/>}
     // label={TabInfo.function.title}
 
+    // <Route path={`${TabInfo.home.route}/:accesstoken`}      component={Home} />
+    
     return (
       AppGlobal.curUserInfo.isLogin
       ?
